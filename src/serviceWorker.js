@@ -79,3 +79,25 @@ function checkValidServiceWorker(swUrl, config) {
       );
     });
 }
+
+// push notification
+self.addEventListener("push", function (event) {
+  let notificationData = event.data ? event.data.json() : {};
+
+  // Set default values in case data is missing
+  const {
+    title = "Dummy Notification",
+    body = "This is a dummy push notification!",
+    icon = "/favicon.ico",
+    url = "/",
+  } = notificationData;
+
+  const options = {
+    body: body,
+    icon: icon,
+    badge: icon,
+    data: { url },
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
